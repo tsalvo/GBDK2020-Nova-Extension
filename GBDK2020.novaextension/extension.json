@@ -1,0 +1,15 @@
+{
+    "identifier": "com.tomsalvo.GBDK2020",
+    "name": "GBDK2020",
+    "organization": "Tom Salvo",
+    "description": "Lorem ipsum, dolor sit amet.",
+    "version": "1.0",
+    "categories": ["tasks"],
+    
+    "main": "main.js",
+    
+    "activationEvents": [
+        "onWorkspaceContains:extension.json",
+        "onWorkspaceContains:gbdk2020.json"
+    ]
+}
