@@ -1,6 +1,12 @@
 
+var gbdk;
+var project_name;
+
 exports.activate = function() {
     // Do work when the extension is activated
+    const config_data = require('./gbdk2020.json');
+    gbdk = config_data['gbdk2020-home'] || "/opt/gbdk/";
+    project_name = config_data['project_name'] || "debug";
 }
 
 exports.deactivate = function() {
@@ -22,7 +28,8 @@ class TaskProvider {
         }));
         
         task.setAction(Task.Run, new TaskProcessAction('/usr/bin/open', {
-            args: ["build/gb/debug.gb"],
+            args: [`build/gb/${project_name}.gb`],
+            buildBeforeRunning: true,
             env: {}
         }));
         
