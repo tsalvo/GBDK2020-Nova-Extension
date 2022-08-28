@@ -1,15 +1,12 @@
 {
-    "identifier": "com.tomsalvo.GBDK2020",
+    "identifier": "com.tomsalvo.gbdk2020",
     "name": "GBDK2020",
     "organization": "Tom Salvo",
-    "description": "Lorem ipsum, dolor sit amet.",
+    "description": "This extension provides a task setup for cleaning, building, and running a GBDK 2020 project. Requires gbdk2020.json file in the workspace, a GBDK2020 template project with a makefile, and the run command required a default location for .gb files",
     "version": "1.0",
     "categories": ["tasks"],
-    
     "main": "main.js",
-    
     "activationEvents": [
-        "onWorkspaceContains:extension.json",
         "onWorkspaceContains:gbdk2020.json"
     ]
 }
