@@ -3,7 +3,6 @@ var gbdk_run_platform;
 var gbdk_build_platforms;
 var project_name;
 
-
 exports.activate = function() {
     // Do work when the extension is activated
     let config_path = nova.workspace.path + "/gbdk2020.json";
@@ -20,7 +19,6 @@ exports.activate = function() {
 exports.deactivate = function() {
     // Clean up state before the extension is deactivated
 }
-
 
 class TaskProvider {
     constructor() {
