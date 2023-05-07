@@ -2,14 +2,98 @@
     "identifier": "com.tomsalvo.gbdk2020",
     "name": "GBDK2020",
     "organization": "Tom Salvo",
-    "description": "This extension provides a task setup for cleaning, building, and running a GBDK 2020 project. Requires gbdk2020.json file in the the root of the project directory, a GBDK2020 template project with a Makefile, and the run command requires that the OS can launch files with the extension defined in the \"gbdk2020-run-platform\" field (e.g. \"gb\").",
+    "description": "This extension provides a task setup for cleaning, building, and running a GBDK 2020 project. The extension requires an empty \"gbdk2020_nova\" file somewhere in the workspace directory (this can also be placed within the \".nova/\" hidden subfolder used for project settings), and a GBDK2020 template project with a Makefile. See README.md for more details on requirements",
+    "repository": "https://github.com/tsalvo/GBDK2020-Nova-Extension",
+    "bugs": "https://github.com/tsalvo/GBDK2020-Nova-Extension/issues",
     "version": "0.0.1",
     "categories": ["tasks"],
     "main": "main.js",
     "activationEvents": [
-        "onWorkspaceContains:gbdk2020.json"
+        "onWorkspaceContains:gbdk2020_nova"
     ],
-    "entitlements": {
-        "filesystem": "readonly"
-    }
+    "config": [
+        {
+            "key": "com.tomsalvo.gbdk2020.general.section",
+            "title": "General",
+            "type": "section",
+            "children": [
+                {
+                    "key": "com.tomsalvo.gbdk2020.enable-debug-log",
+                    "title": "Enable debug log.",
+                    "description": "Enable logging of any debugging info to the extension console.",
+                    "type": "boolean",
+                    "default": false
+                }
+            ]
+        }
+    ],
+    "configWorkspace": [
+        {
+            "key": "com.tomsalvo.gbdk2020.project-name",
+            "title": "Project name",
+            "description": "The name of your project. This should match the GBDK2020 build output file name, without the extension, e.g. \"main\"",
+            "type": "text",
+            "placeholder": "main"
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.build-platform-gb",
+            "title": "Build for Gameboy",
+            "type": "boolean",
+            "default": true
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.build-platform-gbc",
+            "title": "Build for Gameboy Color",
+            "type": "boolean",
+            "default": false
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.build-platform-pocket",
+            "title": "Build for Analogue Pocket",
+            "type": "boolean",
+            "default": false
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.build-platform-gg",
+            "title": "Build for Game Gear",
+            "type": "boolean",
+            "default": false
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.build-platform-sms",
+            "title": "Build for Sega Master System",
+            "type": "boolean",
+            "default": false
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.build-platform-megaduck",
+            "title": "Build for Megaduck",
+            "type": "boolean",
+            "default": false
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.build-platform-nes",
+            "title": "Build for NES",
+            "type": "boolean",
+            "default": false
+        },
+        {
+            "key": "com.tomsalvo.gbdk2020.run-platform",
+            "title": "Run platform",
+            "description": "The file extension of the output file to be opened by the _Run_ command.",
+            "type": "enum",
+            "values": ["gb", "gbc", "pocket", "gg", "sms", "megaduck", "nes"],
+            "default": "gb"
+        },
+        {
+          "key": "com.tomsalvo.gbdk2020.emulator-path",
+          "title": "Emulator path",
+          "description": "The full path to the emulator binary that can be launched from the command line. The _Run_ command will attempt to use this binary to open the output file. If no path is provided, the designated app for the output extension (if any) will be used.",
+          "type": "path",
+          "relative": false,
+          "allowFolders": false,
+          "allowFiles": true,
+          "placeholder": "/usr/bin/open"
+        },
+    ]
 }

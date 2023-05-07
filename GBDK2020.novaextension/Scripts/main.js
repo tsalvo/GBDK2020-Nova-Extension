@@ -1,19 +1,42 @@
-var gbdk_path;
-var gbdk_run_platform;
-var gbdk_build_platforms;
+var enable_debug_log;
 var project_name;
+var output_gb;
+var output_gbc;
+var output_pocket;
+var output_gg;
+var output_sms;
+var output_megaduck;
+var output_nes;
+var run_platform;
+var emulator_path;
+var gbdk_build_platforms;
 
 exports.activate = function() {
     // Do work when the extension is activated
-    let config_path = nova.workspace.path + "/gbdk2020.json";
-    let config_file = nova.fs.open(config_path);
-    let file_buffer = config_file.read();
-    config_file.close();
-    let parsed_json = JSON.parse(file_buffer);
-    gbdk_path = parsed_json['gbdk2020-home'] || "/opt/gbdk/";
-    gbdk_run_platform = parsed_json['gbdk2020-run-platform'] || "gb";
-    gbdk_build_platforms = parsed_json['gbdk2020-build-platforms'] || ["gb"];
-    project_name = parsed_json['project-name'] || "debug";
+    gbdk_build_platforms = [];
+    enable_debug_log = nova.config.get("com.tomsalvo.gbdk2020.enable-debug-log") || false;
+    project_name = nova.workspace.config.get('com.tomsalvo.gbdk2020.project-name') || 'main';
+    output_gb = nova.workspace.config.get('com.tomsalvo.gbdk2020.build-platform-gb') || true;
+    output_gbc = nova.workspace.config.get('com.tomsalvo.gbdk2020.build-platform-gbc') || false;
+    output_pocket = nova.workspace.config.get('com.tomsalvo.gbdk2020.build-platform-pocket') || false;
+    output_gg = nova.workspace.config.get('com.tomsalvo.gbdk2020.build-platform-gg') || false;
+    output_sms = nova.workspace.config.get('com.tomsalvo.gbdk2020.build-platform-sms') || false;
+    output_megaduck = nova.workspace.config.get('com.tomsalvo.gbdk2020.build-platform-megaduck') || false;
+    output_nes = nova.workspace.config.get('com.tomsalvo.gbdk2020.build-platform-nes') || false;
+    run_platform = nova.workspace.config.get('com.tomsalvo.gbdk2020.run-platform') || 'gb';
+    emulator_path = nova.workspace.config.get('com.tomsalvo.gbdk2020.emulator-path') || '/usr/bin/open';
+    
+    if (output_gb || run_platform === 'gb') { gbdk_build_platforms.push('gb'); }
+    if (output_gbc || run_platform === 'gbc') { gbdk_build_platforms.push('gbc'); }
+    if (output_pocket || run_platform === 'pocket') { gbdk_build_platforms.push('pocket'); }
+    if (output_gg || run_platform === 'gg') { gbdk_build_platforms.push('gg'); }
+    if (output_sms || run_platform === 'sms') { gbdk_build_platforms.push('sms'); }
+    if (output_megaduck || run_platform === 'megaduck') { gbdk_build_platforms.push('megaduck'); }
+    if (output_nes || run_platform === 'nes') { gbdk_build_platforms.push('nes'); }
+    
+    if (enable_debug_log) {
+        console.log(`GBDK2020 Extension Config: emulator_path ${emulator_path}, run_platform ${run_platform}, project_name ${project_name}, gbdk_build_platforms ${gbdk_build_platforms}`);
+    }
 }
 
 exports.deactivate = function() {
@@ -35,8 +58,8 @@ class TaskProvider {
             env: {}
         }));
         
-        task.setAction(Task.Run, new TaskProcessAction('/usr/bin/open', {
-            args: [`build/gb/${project_name}.${gbdk_run_platform}`],
+        task.setAction(Task.Run, new TaskProcessAction(emulator_path, {
+            args: [`build/gb/${project_name}.${run_platform}`],
             buildBeforeRunning: true,
             env: {}
         }));
@@ -52,7 +75,7 @@ class TaskProvider {
 
 
 nova.assistants.registerTaskAssistant(new TaskProvider(), {
-    identifier: "example-tasks",
-    name: "Examples"
+    identifier: "gbdk2020",
+    name: "GBDK2020"
 });
 

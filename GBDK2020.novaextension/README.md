@@ -3,33 +3,26 @@
 
 ## Entitlements
 
-**GBDK2020** extension requires read access to files, and this is only used to read the `gbdk2020.json` file in your project directory.
+**GBDK2020** extension requires access to spawn processes, and this is only used to launch the given emulator path in the configuration, when using the _Run_ command.
 
 ## System Requirements
 
 **GBDK2020** extension requires the following to be installed on your Mac:
 
 - [GBDK2020](https://github.com/gbdk-2020/gbdk-2020)
-- An emulator that can open a ROM with the extension matching the `gbdk2020-run-platform` field in `gbdk2020.json` in your project.  This is needed for the _Run_ command to work.
+- An emulator that can open a ROM with the extension matching the _Run Platform_ configuration field (see *Configuration* section).  This is needed for the _Run_ command to work.
 
 ## Project Folder Requirements
 
-1. A Makefile that can be run from the root of your project, and Makefile.targets (see GBDK2020 cross-platform example project)
-2. A `gbdk2020.json` file in the root of your project directory which specifies the following:
-- `gbdk2020-home` the location where `gbdk2020` is installed on your system e.g. `"/opt/gbdk/"`
-- `gbdk2020-run-platform` a string containing the the ROM file extension that the GBDK2020 extension will attempt to open with the _Run_ command, e.g. `"gb"`
-- `gbdk2020-build-platforms` the target platform(s) to build ROMs for with the _Build_ command e.g. `["gb", "gg"]`. Possible values depend on the makefile and version of GBDK2020 installed on the system.  At this time, the following are supported with the latest GBDK2020: `gb gbc pocket megaduck sms gg`
-- `project-name` the name of your target ROM file to be written to.  this must match the `PROJECTNAME` variable in the Makefile.
+1. A `Makefile` that can be run from the root of your project which supports the `make` and `make clean` commands, and `Makefile.targets` (see GBDK2020 cross-platform example project)
+2. A `gbdk2020_nova` file in the root of your project directory, or in the `.nova` subfolder of the project. This file can be empty.
 
-Example `gbdk2020.json`:
-```
-{
-	"gbdk2020-home": "/opt/gbdk/",
-	"gbdk2020-run-platform": "gb",
-	"gbdk2020-build-platforms": ["gb", "gg"],
-	"project-name": "testgame"
-}
-```
+## Configuration
+GBDK2020 project-related settings can be adjusted from the `Project -> Project Settings...` menu, or by selecting the project name on the toolbar.
+- _Project Name_: the name of your project (should match the GBDK2020 build output file name) e.g. `main`
+- _Run Platform_: a string containing the the output build file extension that the **GBDK2020** extension will attempt to open with the _Run_ command, e.g. `gb`
+- _Emulator Path_: the full path to the emulator binary that can be launched from the command line (e.g. `/Applications/SameBoy.app/Contents/MacOS/SameBoy`). If no `emulator_path` is provided, the command will default to `/usr/bin/open`.
+- _Build for Platform_: Checkboxes for building for individual platform(s). If any of these are checked, the Build / Run commands will automatically try to build targets for the selected platform(s) in addition to the platform defined in _Run Platform_.
 
 
 ## Usage
