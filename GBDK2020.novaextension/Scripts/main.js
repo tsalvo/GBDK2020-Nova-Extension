@@ -73,7 +73,6 @@ class TaskProvider {
     }
 }
 
-
 nova.assistants.registerTaskAssistant(new TaskProvider(), {
     identifier: "gbdk2020",
     name: "GBDK2020"
